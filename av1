@@ -1,0 +1,118 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h> 
+
+const int size=1000;
+
+int nums1[size], nums2[size];
+
+void randomizeVectors(){	
+	for(int i=0;i<size;i++){
+		nums1[i]=rand() % 1000;
+		nums2[i]=nums1[i];
+	}
+}
+
+bool checkIfOrdered(){
+	int a, b;
+	for(int i=0;i<size-1;i++){
+		a=nums1[i];
+		b=nums1[i+1];
+		
+		if(a>b){
+			return false;
+		}
+	}
+	
+	return true;
+}
+
+void bubbleSort(){
+	bool ordered = false;
+	
+	while(ordered==false){
+		for(int i=0;i<size-1;i++){			
+			if(nums1[i]>nums1[i+1]){
+				int aux=nums1[i];
+				nums1[i]=nums1[i+1];
+				nums1[i+1]=aux;
+			}
+		}
+		
+		ordered = checkIfOrdered();
+	}
+	
+	//chuchu beleza
+}
+
+void selectionSort(){
+	for(int i=0;i<size;i++){
+		int menorsPos = i;
+		
+		for(int j=i;j<size;j++){
+			if(nums2[j]<nums2[menorsPos]){
+				menorsPos=j;
+			}
+		}
+		
+		int aux=nums2[menorsPos];
+		nums2[menorsPos]=nums2[i];
+		nums2[i]=aux;
+	}
+}
+
+int main(){
+	//os dois vetores serao identicos. Assim a comparacao de performance dos Sorts sera justa
+	randomizeVectors();
+	
+	for(int i=1;i<size;i++){
+		printf("%d, ",nums1[i]);
+		
+		if((i+1)%20==0){
+			printf("\n");
+		}
+	}
+	printf("\n");
+	
+	//BUBBLE SORT PROCEDURE
+	clock_t start = clock();
+	bubbleSort();	//Vai ordenar o vet1
+	clock_t final = clock();
+	double total = (double)(final-start)/CLOCKS_PER_SEC;
+	double tempoBubble=total;
+	
+	printf("Tempo: %f\n",total);
+	
+	printf("Vetor: ",nums1[0]);
+	for(int i=0;i<size;i++){
+		printf("%d, ",nums1[i]);
+		
+		if((i+1)%20==0){
+			printf("\n");
+		}
+	}
+	printf("\n");
+	
+	//SELECT SORT PROCEDURE
+	start = clock();
+	selectionSort();	//Vai order o vet2
+	final = clock();
+	total = (double)(final-start)/CLOCKS_PER_SEC;
+	double tempoSelect=total;
+	printf("Tempo: %f\n",total);
+		
+	printf("Vetor:",nums2[0]);
+	for(int i=0;i<size;i++){
+		printf("%d, ",nums2[i]);
+		
+		if((i+1)%20==0){
+			printf("\n");
+		}
+	}
+	printf("\n");
+	
+	printf("Tempo Bubble: %f\nTempo Select: %f\n\n",tempoBubble,tempoSelect);
+	
+	system("pause");
+}
+                
